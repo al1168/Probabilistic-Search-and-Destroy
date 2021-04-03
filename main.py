@@ -84,7 +84,7 @@ def print_prob_grid(grid, rows):
             elif grid[i][j].get_state() == Node.CAVE:
                 tot_cave += 1
 
-            print('[' + str(cell.row) + ']' + ' [' + str(cell.col) + ']' + 'PROB\t' + str(cell.false_neg_prob))
+            print('[' + str(cell.row) + ']' + '[' + str(cell.col) + ']' + ' FNP\t' + str(cell.false_neg_prob))
     print("Total Flat: "+str(tot_flat))
     print("Total Hill: " + str(tot_hill))
     print("Total Forest: " + str(tot_forest))
@@ -95,8 +95,9 @@ def set_target(grid, dim):
     y = random.randrange(dim)
 
     target = grid[x][y]
-    print('Target: [' + str(target.row) + ']' + ' [' + str(target.col) + ']' + 'PROB\t' + str(target.false_neg_prob))
+    print('Target: [' + str(target.row) + ']' + '[' + str(target.col) + ']' + ' FNP: ' + str(target.false_neg_prob))
     return target
+
 #main driver
 def main(win, width, dimension):
     dim = dimension
