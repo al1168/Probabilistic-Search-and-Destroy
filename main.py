@@ -90,15 +90,22 @@ def print_prob_grid(grid, rows):
     print("Total Forest: " + str(tot_forest))
     print("Total Cave: " + str(tot_cave))
 
+def set_target(grid, dim):
+    x = random.randrange(dim)
+    y = random.randrange(dim)
 
+    target = grid[x][y]
+    print('Target: [' + str(target.row) + ']' + ' [' + str(target.col) + ']' + 'PROB\t' + str(target.false_neg_prob))
+    return target
 #main driver
 def main(win, width, dimension):
     dim = dimension
     grid = create_grid(dim, width)
-    generate_landscape(grid)
-    print("Maze is generated")
 
+    generate_landscape(grid)
     print_prob_grid(grid, dim)
+    target = set_target(grid, dim)
+
     run = True
     while run:
         draw(win, grid, dim, width)
@@ -106,7 +113,9 @@ def main(win, width, dimension):
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                print("Test")
+                generate_landscape(grid)
+                print_prob_grid(grid, dim)
+                target = set_target(grid, dim)
 
 
     pygame.quit()
