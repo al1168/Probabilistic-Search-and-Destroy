@@ -84,18 +84,23 @@ def print_prob_grid(grid, rows):
             elif grid[i][j].get_state() == Node.CAVE:
                 tot_cave += 1
 
-            print('[' + str(cell.row) + ']' + '[' + str(cell.col) + ']' + ' FNP\t' + str(cell.false_neg_prob))
+            print_cell_info(cell)
     print("Total Flat: "+str(tot_flat))
     print("Total Hill: " + str(tot_hill))
     print("Total Forest: " + str(tot_forest))
     print("Total Cave: " + str(tot_cave))
 
+#print cell info
+def print_cell_info(cell):
+    print('[' + str(cell.row) + ']' + '[' + str(cell.col) + ']' + 'F Neg P:' + str(cell.false_neg_prob))
+
+
+#set target
 def set_target(grid, dim):
     x = random.randrange(dim)
     y = random.randrange(dim)
 
     target = grid[x][y]
-    print('Target: [' + str(target.row) + ']' + '[' + str(target.col) + ']' + ' FNP: ' + str(target.false_neg_prob))
     return target
 
 #main driver
@@ -106,7 +111,8 @@ def main(win, width, dimension):
     generate_landscape(grid)
     print_prob_grid(grid, dim)
     target = set_target(grid, dim)
-
+    print("Target; ")
+    print_cell_info(target)
     run = True
     while run:
         draw(win, grid, dim, width)
@@ -117,6 +123,8 @@ def main(win, width, dimension):
                 generate_landscape(grid)
                 print_prob_grid(grid, dim)
                 target = set_target(grid, dim)
+                print("Target; ")
+                print_cell_info(target)
 
 
     pygame.quit()
