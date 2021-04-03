@@ -1,9 +1,9 @@
 import pygame
 
-CAVE = (255, 0, 0)
-FOREST = (0, 255, 0)
-AGENT = (255, 255, 0)
-FLAT = (0, 0, 255)
+CAVE = (255, 0, 0) # Red
+FOREST = (0, 0, 255) #Blue
+HILL = (128,0,128) #Purple
+FLAT = (255, 255, 255) # white
 GREY = (128, 128, 128)
 
 
@@ -22,8 +22,17 @@ class Cell:
 
     def get_false_neg_prob(self):
         return self.false_neg_prob
-     def set_false_neg_prob(self, value):
-         self.false_neg_prob = value
+    def set_false_neg_prob(self):
+        if self.state == FLAT:
+             self.false_neg_prob = 0.1
+        elif self.state == HILL:
+            self.false_neg_prob = 0.3
+
+        elif self.state == FOREST:
+            self.false_neg_prob = 0.7
+
+        elif self.state == CAVE:
+            self.false_neg_prob = 0.9
 
     def get_pos(self):
         return self.row, self.col
@@ -38,16 +47,16 @@ class Cell:
 
     def update_neighbors(self, grid):
         self.neighbors = []
-        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_blocked():  # DOWN
+        if self.row < self.total_rows - 1:  # DOWN
             self.neighbors.append(grid[self.row + 1][self.col])
 
-        if self.row > 0 and not grid[self.row - 1][self.col].is_blocked():  # UP
+        if self.row > 0:  # UP
             self.neighbors.append(grid[self.row - 1][self.col])
 
-        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_blocked():  # RIGHT
+        if self.col < self.total_rows - 1:  # RIGHT
             self.neighbors.append(grid[self.row][self.col + 1])
 
-        if self.col > 0 and not grid[self.row][self.col - 1].is_blocked():  # LEFT
+        if self.col > 0:  # LEFT
             self.neighbors.append(grid[self.row][self.col - 1])
 
     def get_neighbors(self):
