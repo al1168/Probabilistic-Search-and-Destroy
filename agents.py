@@ -71,7 +71,7 @@ def agent1(start, target, grid, dim, time, distance):
             print("Distance: " + str(distance))
             searching = False
         else:
-            print("Target not found: \t"+str(time))
+            print("Target not found: "+str(current.get_pos())+" "+str(time))
             print("Continue Searching...\n")
 
             belief_dict = update_beliefs(current, belief_dict, grid, tot)
@@ -82,19 +82,18 @@ def agent1(start, target, grid, dim, time, distance):
             #    cell_list.remove(current)
 
             min_d = 1000000000000
-            temp_cell = grid[0][0]
+            #temp_cell = grid[0][0]
             for cell in cell_list:
                 temp_d = man_dist(current.get_pos(), cell.get_pos())
                 if temp_d < min_d:
                     min_d = temp_d
-                    temp_cell = cell
+                    current = cell
 
-            current = temp_cell
+            #current = temp_cell
             explored.append(current.get_pos())
             distance += min_d
 
     print("\nDebugging: ")
     #print("Explored ["+str(len(explored))+"]: "+str(explored))
-    print(len(str(explored)))
     print("Prob Sum: "+str(sum(belief_dict.values())))
     print("Done")
