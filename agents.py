@@ -63,7 +63,8 @@ def agent1(start, target, grid, dim, time, distance):
     while searching:
 
         action = search(current, target)
-        time+=2
+        time += 1
+
         if action == True:
             print("Target Found")
             print("Time: "+str(time))
@@ -76,19 +77,24 @@ def agent1(start, target, grid, dim, time, distance):
             belief_dict = update_beliefs(current, belief_dict, grid, tot)
 
             highest_belief = max(belief_dict.values()) #get highest belief
-            cell_list = [key for key in belief_dict if belief_dict[key] == max_prob] # list of cells that share the highest belief
+            cell_list = [key for key in belief_dict if belief_dict[key] == highest_belief] # list of cells that share the highest belief
+            #if current in cell_list:
+            #    cell_list.remove(current)
 
-            min_d = float("inf")
+            min_d = 1000000000000
+            temp_cell = grid[0][0]
             for cell in cell_list:
                 temp_d = man_dist(current.get_pos(), cell.get_pos())
-                if temp_d <= min_d:
+                if temp_d < min_d:
                     min_d = temp_d
-                    current = cell
-                    explored.append(current.get_pos())
+                    temp_cell = cell
 
+            current = temp_cell
+            explored.append(current.get_pos())
             distance += min_d
 
     print("\nDebugging: ")
-    print("Explored: "+str(explored))
+    #print("Explored ["+str(len(explored))+"]: "+str(explored))
+    print(len(str(explored)))
     print("Prob Sum: "+str(sum(belief_dict.values())))
     print("Done")
