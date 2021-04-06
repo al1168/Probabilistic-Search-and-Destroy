@@ -3,7 +3,8 @@ import pygame
 import random
 import numpy as np
 import Node
-import agents
+import agent1
+import agent2
 
 '''
 Authors
@@ -148,7 +149,13 @@ def main(win, width, dimension):
                 if event.key == ord('a'):
                     time = 0
                     distance = 0
-                    ret = agents.agent1(start, target, grid, dim, time, distance)
+                    ret = agent1.run(start, target, grid, dim, time, distance)
+
+                if event.key == ord('s'):
+                    time = 0
+                    distance = 0
+                    ret = agent2.run(start, target, grid, dim, time, distance)
+
 
     pygame.quit()
 
