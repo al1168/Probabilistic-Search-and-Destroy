@@ -61,9 +61,9 @@ def agent1(start, target, grid, dim, time, distance):
 
     searching = True
     while searching:
-        time += 1
 
         action = search(current, target)
+        time+=2
         if action == True:
             print("Target Found")
             print("Time: "+str(time))
