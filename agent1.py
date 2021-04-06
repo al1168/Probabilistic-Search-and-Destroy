@@ -68,6 +68,7 @@ def run(start, target, grid, dim, time, distance):
         time += 1
 
         if action == True:
+            print("\nAgent 1:")
             print("Target Found")
             print("Time: "+str(time))
             print("Distance: " + str(distance))

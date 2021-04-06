@@ -25,9 +25,6 @@ def update_beliefs(curr, belief_dict, grid, tot):
 
     belief_dict[curr] = belief_dict[curr] * curr.get_false_neg_prob()
 
-    #total_prob = 1 * sum(belief_dict.values())
-    #norm = [float(i) / sum(raw) for i in raw]
-
     factor = 1.0 / sum(belief_dict.values())
     normalised_d = {k: v * factor for k, v in belief_dict.items()}
 
@@ -43,9 +40,11 @@ def update_beliefs(curr, belief_dict, grid, tot):
 #update confidence probability
 def update_confidence(curr, confidence_dict, belief_dict, grid):
 
-    confidence_dict[curr] = ((1 - curr.get_false_neg_prob()) * belief_dict[curr])
+    for k, v in confidence_dict.items():
+        confidence_dict[k] = belief_dict[k] * (1 - k.get_false_neg_prob())
 
-    '''
+    #confidence_dict[curr] = belief_dict[curr] * (1-curr.get_false_neg_prob())
+
     factor = 1.0 / sum(confidence_dict.values())
     normalised_d = {k: v * factor for k, v in confidence_dict.items()}
 
@@ -54,7 +53,8 @@ def update_confidence(curr, confidence_dict, belief_dict, grid):
     for row in grid:
         for cell in row:
             cell.set_confidence_prob(confidence_dict[cell])
-    '''
+
+
     return confidence_dict
 
 
@@ -103,19 +103,7 @@ def run(start, target, grid, dim, time, distance):
             print("Continue Searching...\n")
 
             belief_dict = update_beliefs(current, belief_dict, grid, tot)
-            #confidence_dict = update_confidence(current, confidence_dict, belief_dict, grid)
-
-            for k,v in confidence_dict.items():
-                confidence_dict[k] = belief_dict[k] * (1 - k.get_false_neg_prob())
-
-            factor = 1.0 / sum(confidence_dict.values())
-            normalised_d = {k: v * factor for k, v in confidence_dict.items()}
-
-            confidence_dict = normalised_d
-            # update cell's confidence prob with belief_dict
-            for row in grid:
-                for cell in row:
-                    cell.set_confidence_prob(confidence_dict[cell])
+            confidence_dict = update_confidence(current, confidence_dict, belief_dict, grid)
 
             highest_confidence = max(confidence_dict.values()) #get highest confidence
             cell_list = [key for key in confidence_dict if confidence_dict[key] == highest_confidence] # list of cells that share the highest belief
