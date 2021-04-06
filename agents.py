@@ -75,8 +75,8 @@ def agent1(start, target, grid, dim, time, distance):
 
             belief_dict = update_beliefs(current, belief_dict, grid, tot)
 
-            max_prob = max(belief_dict.values()) #find highest prob in belief_dict
-            cell_list = [key for key in belief_dict if belief_dict[key] == max_prob] # get list of keys of that have max_prob
+            highest_belief = max(belief_dict.values()) #get highest belief
+            cell_list = [key for key in belief_dict if belief_dict[key] == max_prob] # list of cells that share the highest belief
 
             min_d = float("inf")
             for cell in cell_list:
