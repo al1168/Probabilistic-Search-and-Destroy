@@ -1,7 +1,7 @@
 import sys
 import pygame
 import random
-import numpy as np
+# import numpy as np
 import Node
 
 '''
@@ -16,6 +16,7 @@ WIDTH = 800
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Prob Search")
 
+
 # draw lines on pygame application
 def draw_grid(win, rows, width):
     gap = width // rows
@@ -23,6 +24,7 @@ def draw_grid(win, rows, width):
         pygame.draw.line(win, Node.GREY, (0, i * gap), (width, i * gap))
         for j in range(rows):
             pygame.draw.line(win, Node.GREY, (j * gap, 0), (j * gap, width))
+
 
 # draw the colors on py game
 def draw(win, grid, rows, width):
@@ -33,6 +35,7 @@ def draw(win, grid, rows, width):
 
     draw_grid(win, rows, width)
     pygame.display.update()
+
 
 # creates a template maze with default values
 def create_grid(rows, width):
@@ -45,6 +48,7 @@ def create_grid(rows, width):
             grid[i].append(cell)
 
     return grid
+
 
 # creates a randomly generated blocked maze
 def generate_landscape(grid):
@@ -66,6 +70,7 @@ def generate_landscape(grid):
                 cell.set_state(Node.CAVE)
                 cell.set_false_neg_prob()
 
+
 def print_prob_grid(grid, rows):
     tot_hill = 0
     tot_flat = 0
@@ -85,10 +90,11 @@ def print_prob_grid(grid, rows):
                 tot_cave += 1
 
             print('[' + str(cell.row) + ']' + '[' + str(cell.col) + ']' + ' FNP\t' + str(cell.false_neg_prob))
-    print("Total Flat: "+str(tot_flat))
+    print("Total Flat: " + str(tot_flat))
     print("Total Hill: " + str(tot_hill))
     print("Total Forest: " + str(tot_forest))
     print("Total Cave: " + str(tot_cave))
+
 
 def set_target(grid, dim):
     x = random.randrange(dim)
@@ -98,7 +104,8 @@ def set_target(grid, dim):
     print('Target: [' + str(target.row) + ']' + '[' + str(target.col) + ']' + ' FNP: ' + str(target.false_neg_prob))
     return target
 
-#main driver
+
+# main driver
 def main(win, width, dimension):
     dim = dimension
     grid = create_grid(dim, width)
@@ -118,9 +125,7 @@ def main(win, width, dimension):
                 print_prob_grid(grid, dim)
                 target = set_target(grid, dim)
 
-
     pygame.quit()
-
 
 
 if __name__ == '__main__':
