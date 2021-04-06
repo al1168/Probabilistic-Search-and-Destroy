@@ -18,7 +18,20 @@ class Cell:
         self.neighbors = []
         self.width = width
         self.total_rows = total_rows
-        self.false_neg_prob = 0
+        self.false_neg_prob = -1.0
+        self.belief_prob = -1.0
+        self.confidence_prob = -1.0
+
+    def set_belief_prob(self, prob):
+        self.belief_prob = prob
+    def get_belief_prob(self):
+        return self.belief_prob
+
+    def set_confidence_prob(self, prob):
+        self.confidence_prob = prob
+
+    def get_confidence_prob(self):
+        return self.confidence_prob
 
     def get_false_neg_prob(self):
         return self.false_neg_prob

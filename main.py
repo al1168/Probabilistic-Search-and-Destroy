@@ -3,6 +3,7 @@ import pygame
 import random
 import numpy as np
 import Node
+import agents
 
 '''
 Authors
@@ -103,6 +104,14 @@ def set_target(grid, dim):
     target = grid[x][y]
     return target
 
+#set start location
+def set_start(grid, dim):
+    x = random.randrange(dim)
+    y = random.randrange(dim)
+
+    start = grid[x][y]
+    return start
+
 #main driver
 def main(win, width, dimension):
     dim = dimension
@@ -113,6 +122,11 @@ def main(win, width, dimension):
     target = set_target(grid, dim)
     print("Target; ")
     print_cell_info(target)
+
+    start = set_start(grid, dim)
+    print("Start: ")
+    print_cell_info(start)
+
     run = True
     while run:
         draw(win, grid, dim, width)
@@ -120,12 +134,21 @@ def main(win, width, dimension):
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                generate_landscape(grid)
-                print_prob_grid(grid, dim)
-                target = set_target(grid, dim)
-                print("Target; ")
-                print_cell_info(target)
+                if event.key == pygame.K_SPACE:
+                    generate_landscape(grid)
+                    print_prob_grid(grid, dim)
+                    target = set_target(grid, dim)
+                    print("Target; ")
+                    print_cell_info(target)
 
+                    start = set_start(grid, dim)
+                    print("Start: ")
+                    print_cell_info(start)
+
+                if event.key == ord('a'):
+                    time = 0
+                    distance = 0
+                    ret = agents.agent1(start, target, grid, dim, time, distance)
 
     pygame.quit()
 
