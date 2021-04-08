@@ -65,15 +65,15 @@ def run(start, target, grid, dim, time, distance):
     while searching:
 
         action = search(current, target)
-        time += 1
 
         if action == True:
-            print("\nAgent 1:")
+            print("\nAgent 1 Result:")
             print("Target Found")
             print("Time: "+str(time))
             print("Distance: " + str(distance))
             searching = False
         else:
+            time += 1
             print("Target not found: "+str(current.get_pos())+" "+str(time))
             print("Continue Searching...\n")
 
@@ -100,3 +100,5 @@ def run(start, target, grid, dim, time, distance):
     #print("Explored ["+str(len(explored))+"]: "+str(explored))
     print("Prob Sum: "+str(sum(belief_dict.values())))
     print("Done")
+
+    return (time, distance)

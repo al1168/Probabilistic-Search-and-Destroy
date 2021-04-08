@@ -18,6 +18,15 @@ WIDTH = 800
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Prob Search")
 
+#Global Variable
+AGENT1_TIME = []
+AGENT1_DIST = []
+AGENT2_TIME = []
+AGENT2_DIST = []
+AGENT3_TIME = []
+AGENT3_DIST = []
+
+
 # draw lines on pygame application
 def draw_grid(win, rows, width):
     gap = width // rows
@@ -151,10 +160,43 @@ def main(win, width, dimension):
                     distance = 0
                     ret = agent1.run(start, target, grid, dim, time, distance)
 
+
                 if event.key == ord('s'):
                     time = 0
                     distance = 0
                     ret = agent2.run(start, target, grid, dim, time, distance)
+
+                if event.key == ord('1'):
+
+                    for i in range(0, 50):
+                        time = 0
+                        distance = 0
+                        ret = agent1.run(start, target, grid, dim, time, distance)
+                        AGENT1_TIME.append(ret[0])
+                        AGENT1_DIST.append(ret[1])
+
+                        generate_landscape(grid)
+                        target = set_target(grid, dim)
+                        start = set_start(grid, dim)
+
+                    print("Agent1_Time = "+str(len(AGENT1_TIME))+" "+str(AGENT1_TIME))
+                    print("Agent1_Dist = " + str(len(AGENT1_DIST)) + " " + str(AGENT1_DIST))
+
+                if event.key == ord('2'):
+
+                    for i in range(0, 50):
+                        time = 0
+                        distance = 0
+                        ret = agent2.run(start, target, grid, dim, time, distance)
+                        AGENT2_TIME.append(ret[0])
+                        AGENT2_DIST.append(ret[1])
+
+                        generate_landscape(grid)
+                        target = set_target(grid, dim)
+                        start = set_start(grid, dim)
+
+                    print("Agent2_Time = "+str(len(AGENT2_TIME))+" "+str(AGENT2_TIME))
+                    print("Agent2_Dist = " + str(len(AGENT2_DIST)) + " " + str(AGENT2_DIST))
 
 
     pygame.quit()
