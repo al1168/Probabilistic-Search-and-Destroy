@@ -8,7 +8,7 @@ GREY = (128, 128, 128)
 Agent = (154,99,220)
 Target =(255,0,0)
 class Cell:
-    def __init__(self, row, col, width, total_rows,id):
+    def __init__(self, row, col, width, total_rows):
         self.row = row
         self.col = col
         self.x = col * width
@@ -21,7 +21,7 @@ class Cell:
         self.false_neg_prob = -1.0
         self.belief_prob = -1.0
         self.confidence_prob = -1.0
-        self.id = id
+        # self.id = id
 
     def getId(self):
         return self.id

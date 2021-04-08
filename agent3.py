@@ -62,27 +62,42 @@ def search(cell, target):
         return
 
 
+# def generate_islands(grid):
+#     # assume 50*50 grid
+#     # creates regions of 25 squares
+#     # island.append(grid[k+i][l+j])
+#     dict = {}
+#     id = 0
+#     for j in range(0, 50, 5):
+#         for i in range(0, 50, 5):
+#             cells = []
+#             it = 0
+#             for k in range(0, 5):
+#                 for l in range(0, 5):
+#                     cells.append(grid[k + i][l + it])
+#             it += 2
+#             # print(len(cells))
+#             temp = Island(cells, id)
+#             dict[id] = temp
+#             id += 1
+#     return dict
+
 def generate_islands(grid):
     # assume 50*50 grid
     # creates regions of 25 squares
     # island.append(grid[k+i][l+j])
     dict = {}
     id = 0
-    for j in range(0, 50, 5):
-        for i in range(0, 50, 5):
+    for i in range(0,10):
+        for j in range(0,10):
             cells = []
-            it = 0
-            for k in range(0, 5):
-                for l in range(0, 5):
-                    cells.append(grid[k + i][l + it])
-            print('\n')
-            it += 2
-            # print(len(cells))
+            for k in range(0,5):
+                for l in range(0,5):
+                    cells.append(grid[k+5*i][l+5*j])
             temp = Island(cells, id)
             dict[id] = temp
             id += 1
     return dict
-
 
 # def compute_island_prob(islands):
 #     prob_lst = []
@@ -94,6 +109,20 @@ def generate_islands(grid):
 #     return prob_lst
 
 
+# def compute_island_prob(islands, visited):
+#     prob_lst = PriorityQueue()
+#     d = 0
+#     for values in islands.values():
+#         total_prob = 0
+#         for cell in values.getIsland():
+#             total_prob += cell.get_confidence_prob()
+#         count = visited[d]
+#         temptuple = (-1*total_prob, count, values.getId())
+#         prob_lst.put(temptuple)
+#         d += 1
+#     # print(prob_lst.qsize())
+#     return prob_lst
+
 def compute_island_prob(islands, visited):
     prob_lst = PriorityQueue()
     d = 0
@@ -102,16 +131,29 @@ def compute_island_prob(islands, visited):
         for cell in values.getIsland():
             total_prob += cell.get_confidence_prob()
         count = visited[d]
-        temptuple = (-1 * total_prob, count, values.getId())
+        temptuple = (-1*total_prob, count, values.getId())
         prob_lst.put(temptuple)
         d += 1
     # print(prob_lst.qsize())
     return prob_lst
-
+# def compute_island_prob(islands, visited):
+#     prob_lst = []
+#     d = 0
+#     for values in islands.values():
+#         total_prob = 0
+#         for cell in values.getIsland():
+#             total_prob += cell.get_confidence_prob()
+#         count = visited[d]
+#         temptuple = (-1*total_prob, count, values.getId())
+#         prob_lst.append(temptuple)
+#         d += 1
+#     # print(prob_lst.qsize())
+#     prob_lst.sort()
+#     return prob_lst
 
 def run(start, target, grid, dim, timed, distance, draw):
     explored = []  # for printing purposes
-
+    previous_cell =start
     # initiate belief probs for each cell
     tot = dim ** 2
     belief_dict = dict()
@@ -130,6 +172,7 @@ def run(start, target, grid, dim, timed, distance, draw):
 
     # create islands.regions in to a dictionary
     islands = generate_islands(grid)
+    print(islands)
     visited = {}
     for i in range(0, 100):
         visited[i] = 0
@@ -159,8 +202,10 @@ def run(start, target, grid, dim, timed, distance, draw):
             continue
 
         # Give us highest probability island
-        Highest_island_prob = prob_lst.get()[2]
-
+        picked_island = prob_lst.get()
+        print(picked_island)
+        Highest_island_prob = picked_island[2]
+        # print(Highest_island_prob)
         # list of all the cell we need to visit on this island
         current_list = islands[Highest_island_prob].getIsland()
 
@@ -170,12 +215,11 @@ def run(start, target, grid, dim, timed, distance, draw):
         # list to store for printing purpose
         list = []
         for cell in current_list:
-            print(prob_lst.queue)
             list.append(cell.get_pos())
             current = cell
             current.set_state(Node.Agent)
             # time.sleep(1)
-            draw()
+
             action = search(current, target)
             timed += 1
             if action == True:
@@ -187,11 +231,18 @@ def run(start, target, grid, dim, timed, distance, draw):
             else:
                 belief_dict = update_beliefs(current, belief_dict, grid, tot)
                 confidence_dict = update_confidence(current, confidence_dict, belief_dict, grid)
+            # calc distance
+            temp_d = man_dist(current.get_pos(), previous_cell.get_pos())
+            distance += temp_d
+            previous_cell = current
         print("")
         # print(list)
+        # print(prob_lst.queue)
         list = []
         #
+        draw()
         prob_lst = compute_island_prob(islands, visited)
+        # print(visited)
         # print(prob_lst.queue)
 
     return

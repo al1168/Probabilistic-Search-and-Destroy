@@ -47,7 +47,7 @@ def create_grid(rows, width):
     for i in range(rows):
         grid.append([])
         for j in range(rows):
-            cell = Node.Cell(i, j, gap, rows,id)
+            cell = Node.Cell(i, j, gap, rows)
             grid[i].append(cell)
             id +=1
     return grid
