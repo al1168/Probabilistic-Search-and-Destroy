@@ -1,11 +1,11 @@
 import sys
 import pygame
 import random
-import numpy as np
+# import numpy as np
 import Node
 import agent1
 import agent2
-
+import agent3
 '''
 Authors
 Alden Lu al1168
@@ -26,7 +26,6 @@ AGENT2_DIST = []
 AGENT3_TIME = []
 AGENT3_DIST = []
 
-
 # draw lines on pygame application
 def draw_grid(win, rows, width):
     gap = width // rows
@@ -34,6 +33,7 @@ def draw_grid(win, rows, width):
         pygame.draw.line(win, Node.GREY, (0, i * gap), (width, i * gap))
         for j in range(rows):
             pygame.draw.line(win, Node.GREY, (j * gap, 0), (j * gap, width))
+
 
 # draw the colors on py game
 def draw(win, grid, rows, width):
@@ -45,17 +45,20 @@ def draw(win, grid, rows, width):
     draw_grid(win, rows, width)
     pygame.display.update()
 
+
 # creates a template maze with default values
 def create_grid(rows, width):
     grid = []
     gap = width // rows
+    id = 0
     for i in range(rows):
         grid.append([])
         for j in range(rows):
             cell = Node.Cell(i, j, gap, rows)
             grid[i].append(cell)
-
+            id +=1
     return grid
+
 
 # creates a randomly generated blocked maze
 def generate_landscape(grid):
@@ -77,6 +80,7 @@ def generate_landscape(grid):
                 cell.set_state(Node.CAVE)
                 cell.set_false_neg_prob()
 
+
 def print_prob_grid(grid, rows):
     tot_hill = 0
     tot_flat = 0
@@ -95,11 +99,11 @@ def print_prob_grid(grid, rows):
             elif grid[i][j].get_state() == Node.CAVE:
                 tot_cave += 1
 
-            print_cell_info(cell)
-    print("Total Flat: "+str(tot_flat))
-    print("Total Hill: " + str(tot_hill))
-    print("Total Forest: " + str(tot_forest))
-    print("Total Cave: " + str(tot_cave))
+            print('[' + str(cell.row) + ']' + '[' + str(cell.col) + ']' + ' FNP\t' + str(cell.false_neg_prob))
+    print("Total Flat: " + str(tot_flat))
+
+
+
 
 #print cell info
 def print_cell_info(cell):
@@ -107,12 +111,18 @@ def print_cell_info(cell):
 
 
 #set target
+
 def set_target(grid, dim):
     x = random.randrange(dim)
     y = random.randrange(dim)
 
     target = grid[x][y]
+    target.set_state(Node.Target)
     return target
+
+
+
+# main driver
 
 #set start location
 def set_start(grid, dim):
@@ -144,6 +154,11 @@ def main(win, width, dimension):
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
+                # generate_landscape(grid)
+                # print_prob_grid(grid, dim)
+                # target = set_target(grid, dim)
+                # print("Target; ")
+                print_cell_info(target)
                 if event.key == pygame.K_SPACE:
                     generate_landscape(grid)
                     print_prob_grid(grid, dim)
@@ -165,6 +180,11 @@ def main(win, width, dimension):
                     time = 0
                     distance = 0
                     ret = agent2.run(start, target, grid, dim, time, distance)
+
+                if event.key == ord('d'):
+                    time = 0
+                    distance = 0
+                    ret = agent3.run(start, target, grid, dim, time, distance, lambda: draw(win, grid, dim, width))
 
                 if event.key == ord('1'):
 
@@ -202,7 +222,7 @@ def main(win, width, dimension):
     pygame.quit()
 
 
-
 if __name__ == '__main__':
-    dimension = int(sys.argv[1])
+    # dimension = int(sys.argv[1])
+    dimension = 50
     main(WIN, WIDTH, dimension)
