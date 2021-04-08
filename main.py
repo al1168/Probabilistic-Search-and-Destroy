@@ -3,8 +3,9 @@ import pygame
 import random
 # import numpy as np
 import Node
-import agents
-
+import agent1
+import agent2
+import agent3
 '''
 Authors
 Alden Lu al1168
@@ -42,12 +43,13 @@ def draw(win, grid, rows, width):
 def create_grid(rows, width):
     grid = []
     gap = width // rows
+    id = 0
     for i in range(rows):
         grid.append([])
         for j in range(rows):
-            cell = Node.Cell(i, j, gap, rows)
+            cell = Node.Cell(i, j, gap, rows,id)
             grid[i].append(cell)
-
+            id +=1
     return grid
 
 
@@ -108,6 +110,7 @@ def set_target(grid, dim):
     y = random.randrange(dim)
 
     target = grid[x][y]
+    target.set_state(Node.Target)
     return target
 
 
@@ -144,10 +147,10 @@ def main(win, width, dimension):
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                generate_landscape(grid)
-                print_prob_grid(grid, dim)
-                target = set_target(grid, dim)
-                print("Target; ")
+                # generate_landscape(grid)
+                # print_prob_grid(grid, dim)
+                # target = set_target(grid, dim)
+                # print("Target; ")
                 print_cell_info(target)
                 if event.key == pygame.K_SPACE:
                     generate_landscape(grid)
@@ -163,12 +166,22 @@ def main(win, width, dimension):
                 if event.key == ord('a'):
                     time = 0
                     distance = 0
-                    ret = agents.agent1(start, target, grid, dim, time, distance)
+                    ret = agent1.run(start, target, grid, dim, time, distance)
+
+                if event.key == ord('s'):
+                    time = 0
+                    distance = 0
+                    ret = agent2.run(start, target, grid, dim, time, distance)
+                if event.key == ord('d'):
+                    time = 0
+                    distance = 0
+                    ret = agent3.run(start, target, grid, dim, time, distance, lambda: draw(win, grid, dim, width))
+
 
     pygame.quit()
 
 
 if __name__ == '__main__':
     # dimension = int(sys.argv[1])
-    dimension = 10
+    dimension = 50
     main(WIN, WIDTH, dimension)

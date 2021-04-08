@@ -1,3 +1,5 @@
+#Agent1
+
 import random
 import numpy as np
 
@@ -45,7 +47,7 @@ def man_dist(p1, p2):
     return abs(x1 - x2) + abs(y1 - y2)
 
 #agent 1
-def agent1(start, target, grid, dim, time, distance):
+def run(start, target, grid, dim, time, distance):
     explored = [] # for printing purposes
 
     #initiate belief probs for each cell
@@ -66,6 +68,7 @@ def agent1(start, target, grid, dim, time, distance):
         time += 1
 
         if action == True:
+            print("\nAgent 1:")
             print("Target Found")
             print("Time: "+str(time))
             print("Distance: " + str(distance))
