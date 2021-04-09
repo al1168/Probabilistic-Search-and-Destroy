@@ -99,8 +99,8 @@ def run(start, target, grid, dim, time, distance):
             searching = False
         else:
             time += 1
-            print("Target not found: "+str(current.get_pos())+" "+str(time))
-            print("Continue Searching...\n")
+            # print("Target not found: "+str(current.get_pos())+" "+str(time))
+            # print("Continue Searching...\n")
 
             belief_dict = update_beliefs(current, belief_dict, grid, tot)
             confidence_dict = update_confidence(current, confidence_dict, belief_dict, grid)

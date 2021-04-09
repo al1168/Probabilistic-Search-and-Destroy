@@ -117,7 +117,7 @@ def set_target(grid, dim):
     y = random.randrange(dim)
 
     target = grid[x][y]
-    target.set_state(Node.Target)
+    # target.set_state(Node.Target)
     return target
 
 
@@ -138,7 +138,7 @@ def main(win, width, dimension):
     grid = create_grid(dim, width)
 
     generate_landscape(grid)
-    print_prob_grid(grid, dim)
+    # print_prob_grid(grid, dim)
     target = set_target(grid, dim)
     print("Target; ")
     print_cell_info(target)
@@ -217,7 +217,6 @@ def main(win, width, dimension):
 
                     print("Agent2_Time = "+str(len(AGENT2_TIME))+" "+str(AGENT2_TIME))
                     print("Agent2_Dist = " + str(len(AGENT2_DIST)) + " " + str(AGENT2_DIST))
-
 
     pygame.quit()
 
