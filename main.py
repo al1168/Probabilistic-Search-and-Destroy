@@ -188,7 +188,7 @@ def main(win, width, dimension):
 
                 if event.key == ord('1'):
 
-                    for i in range(0, 50):
+                    for i in range(0, 100):
                         time = 0
                         distance = 0
                         ret = agent1.run(start, target, grid, dim, time, distance)
@@ -204,7 +204,7 @@ def main(win, width, dimension):
 
                 if event.key == ord('2'):
 
-                    for i in range(0, 50):
+                    for i in range(0, 100):
                         time = 0
                         distance = 0
                         ret = agent2.run(start, target, grid, dim, time, distance)
@@ -217,6 +217,22 @@ def main(win, width, dimension):
 
                     print("Agent2_Time = "+str(len(AGENT2_TIME))+" "+str(AGENT2_TIME))
                     print("Agent2_Dist = " + str(len(AGENT2_DIST)) + " " + str(AGENT2_DIST))
+
+                if event.key == ord('3'):
+
+                    for i in range(0, 100):
+                        time = 0
+                        distance = 0
+                        ret = agent3.run(start, target, grid, dim, time, distance, lambda: draw(win, grid, dim, width))
+                        AGENT3_TIME.append(ret[0])
+                        AGENT3_DIST.append(ret[1])
+
+                        generate_landscape(grid)
+                        target = set_target(grid, dim)
+                        start = set_start(grid, dim)
+
+                    print("Agent3_Time = "+str(len(AGENT3_TIME))+" "+str(AGENT3_TIME))
+                    print("Agent3_Dist = " + str(len(AGENT3_DIST)) + " " + str(AGENT3_DIST))
 
     pygame.quit()
 

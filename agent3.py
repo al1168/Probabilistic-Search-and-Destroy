@@ -346,6 +346,7 @@ def run(start, target, grid, dim, timed, distance, draw):
         distance += temp_d
         previous_cell = current
 
+    return (timed, distance)
 
 class Island:
     def __init__(self, list, id):
