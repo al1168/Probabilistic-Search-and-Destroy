@@ -301,9 +301,7 @@ def run(start, target, grid, dim, timed, distance, draw):
                 timed += 1
             first_it += 1
             continue
-
-        utility = [[0] * dim for _ in range(50)]
-        util_cells = {}
+        Value_dict = {}
         Max_Value = -1
         max_cell = None
         for key in belief_dict.keys():
@@ -311,20 +309,20 @@ def run(start, target, grid, dim, timed, distance, draw):
                 continue
             Value = confidence_dict[key] / man_dist(current.get_pos(), (key.row, key.col))
             if Value > Max_Value:
-                if Max_Value in util_cells:
-                    util_cells.pop(Max_Value)
+                if Max_Value in Value_dict:
+                    Value_dict.pop(Max_Value)
                 Max_Value = Value
-                if Max_Value not in util_cells:
-                    util_cells[Max_Value] = []
-                util_cells[Max_Value].append(key)
+                if Max_Value not in Value_dict:
+                    Value_dict[Max_Value] = []
+                Value_dict[Max_Value].append(key)
                 if Value == Max_Value:
-                    util_cells[Max_Value].append(key)
-        # print(util_cells[Max_Value])
-        index = np.random.randint(0, len(util_cells[Max_Value]))
-        # for cell in util_cells[Max_Value]:
+                    Value_dict[Max_Value].append(key)
+        # print(Value_dict[Max_Value])
+        index = np.random.randint(0, len(Value_dict[Max_Value]))
+        # for cell in Value_dict[Max_Value]:
         #     print(str(cell.row) +' '+str(cell.col))
-        # print(len(util_cells[Max_Value]))
-        max_cell = util_cells[Max_Value][index]
+        # print(len(Value_dict[Max_Value]))
+        max_cell = Value_dict[Max_Value][index]
         current = max_cell
         action = search(max_cell, target)
 
