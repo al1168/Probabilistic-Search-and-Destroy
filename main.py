@@ -25,6 +25,9 @@ AGENT2_TIME = []
 AGENT2_DIST = []
 AGENT3_TIME = []
 AGENT3_DIST = []
+AGENT1_SCORE = []
+AGENT2_SCORE = []
+AGENT3_SCORE = []
 
 # draw lines on pygame application
 def draw_grid(win, rows, width):
@@ -62,6 +65,7 @@ def create_grid(rows, width):
 
 # creates a randomly generated blocked maze
 def generate_landscape(grid):
+    '''
     lst = ["flat", "hill", "forest", "cave"]
     for row in grid:
         for cell in row:
@@ -79,6 +83,12 @@ def generate_landscape(grid):
             elif t == "cave":
                 cell.set_state(Node.CAVE)
                 cell.set_false_neg_prob()
+    '''
+    for row in grid:
+        for cell in row:
+            cell.set_state(Node.CAVE)
+            cell.set_false_neg_prob()
+
 
 
 def print_prob_grid(grid, rows):
@@ -188,12 +198,13 @@ def main(win, width, dimension):
 
                 if event.key == ord('1'):
 
-                    for i in range(0, 100):
+                    for i in range(0, 10):
                         time = 0
                         distance = 0
                         ret = agent1.run(start, target, grid, dim, time, distance)
                         AGENT1_TIME.append(ret[0])
                         AGENT1_DIST.append(ret[1])
+                        AGENT1_SCORE.append(ret[2])
 
                         generate_landscape(grid)
                         target = set_target(grid, dim)
@@ -201,15 +212,17 @@ def main(win, width, dimension):
 
                     print("Agent1_Time = "+str(len(AGENT1_TIME))+" "+str(AGENT1_TIME))
                     print("Agent1_Dist = " + str(len(AGENT1_DIST)) + " " + str(AGENT1_DIST))
+                    print("agent1_score = "+str(AGENT1_SCORE))
 
                 if event.key == ord('2'):
 
-                    for i in range(0, 100):
+                    for i in range(0, 10):
                         time = 0
                         distance = 0
                         ret = agent2.run(start, target, grid, dim, time, distance)
                         AGENT2_TIME.append(ret[0])
                         AGENT2_DIST.append(ret[1])
+                        AGENT2_SCORE.append(ret[2])
 
                         generate_landscape(grid)
                         target = set_target(grid, dim)
@@ -217,15 +230,17 @@ def main(win, width, dimension):
 
                     print("Agent2_Time = "+str(len(AGENT2_TIME))+" "+str(AGENT2_TIME))
                     print("Agent2_Dist = " + str(len(AGENT2_DIST)) + " " + str(AGENT2_DIST))
+                    print("agent2_score = " + str(AGENT2_SCORE))
 
                 if event.key == ord('3'):
 
-                    for i in range(0, 100):
+                    for i in range(0, 10):
                         time = 0
                         distance = 0
                         ret = agent3.run(start, target, grid, dim, time, distance, lambda: draw(win, grid, dim, width))
                         AGENT3_TIME.append(ret[0])
                         AGENT3_DIST.append(ret[1])
+                        AGENT3_SCORE.append(ret[2])
 
                         generate_landscape(grid)
                         target = set_target(grid, dim)
@@ -233,6 +248,7 @@ def main(win, width, dimension):
 
                     print("Agent3_Time = "+str(len(AGENT3_TIME))+" "+str(AGENT3_TIME))
                     print("Agent3_Dist = " + str(len(AGENT3_DIST)) + " " + str(AGENT3_DIST))
+                    print("agent3_score = " + str(AGENT3_SCORE))
 
     pygame.quit()
 

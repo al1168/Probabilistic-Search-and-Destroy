@@ -101,4 +101,4 @@ def run(start, target, grid, dim, time, distance):
     print("Prob Sum: "+str(sum(belief_dict.values())))
     print("Done")
 
-    return (time, distance)
+    return (time, distance, time+distance)
