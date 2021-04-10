@@ -65,7 +65,7 @@ def create_grid(rows, width):
 
 # creates a randomly generated blocked maze
 def generate_landscape(grid):
-    '''
+
     lst = ["flat", "hill", "forest", "cave"]
     for row in grid:
         for cell in row:
@@ -88,7 +88,7 @@ def generate_landscape(grid):
         for cell in row:
             cell.set_state(Node.CAVE)
             cell.set_false_neg_prob()
-
+    '''
 
 
 def print_prob_grid(grid, rows):
