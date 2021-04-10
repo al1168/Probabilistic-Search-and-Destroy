@@ -86,7 +86,7 @@ def generate_landscape(grid):
     '''
     for row in grid:
         for cell in row:
-            cell.set_state(Node.CAVE)
+            cell.set_state(Node.FOREST)
             cell.set_false_neg_prob()
 
 
