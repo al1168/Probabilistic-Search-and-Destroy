@@ -86,7 +86,7 @@ def generate_landscape(grid):
     '''
     for row in grid:
         for cell in row:
-            cell.set_state(Node.FOREST)
+            cell.set_state(Node.CAVE)
             cell.set_false_neg_prob()
 
 
@@ -198,7 +198,7 @@ def main(win, width, dimension):
 
                 if event.key == ord('1'):
 
-                    for i in range(0, 10):
+                    for i in range(0, 100):
                         time = 0
                         distance = 0
                         ret = agent1.run(start, target, grid, dim, time, distance)
@@ -216,7 +216,7 @@ def main(win, width, dimension):
 
                 if event.key == ord('2'):
 
-                    for i in range(0, 10):
+                    for i in range(0, 20):
                         time = 0
                         distance = 0
                         ret = agent2.run(start, target, grid, dim, time, distance)
@@ -234,7 +234,7 @@ def main(win, width, dimension):
 
                 if event.key == ord('3'):
 
-                    for i in range(0, 10):
+                    for i in range(0, 100):
                         time = 0
                         distance = 0
                         ret = agent3.run(start, target, grid, dim, time, distance, lambda: draw(win, grid, dim, width))
