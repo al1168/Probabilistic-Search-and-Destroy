@@ -250,3 +250,17 @@ print("\nCave Dist A1: "+str(ave_cave1_dist))
 print("Cave Dist A2: "+str(ave_cave2_dist1))
 print("Cave Dist A3: "+str(ave_cave3_dist1))
 
+agent1_Moving_score = np.array([586, 178116, 4268, 3014, 6326, 86137, 61930, 24283, 3718, 5616])
+ave_a1_mov_score = np.average(agent1_Moving_score)
+
+agent2_Moving_score = np.array([4211, 53386, 292223, 29366, 837, 207991, 537, 509898, 3, 1380])
+ave_a2_mov_score = np.average(agent2_Moving_score)
+
+print(ave_a1_mov_score)
+print(ave_a2_mov_score)
+
+agent2_Moving_score1 = np.array([11322, 1973, 1292, 1930, 1766, 20963, 2224, 11747, 3821, 9798])
+ave_a2_mov_score1 = np.average(agent2_Moving_score)
+
+print(ave_a2_mov_score1)
+

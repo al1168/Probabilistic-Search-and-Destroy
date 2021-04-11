@@ -201,6 +201,12 @@ def main(win, width, dimension):
                     distance = 0
                     ret = agent1.run_moving_target(start, target, grid, dim, time, distance)
 
+                if event.key == ord('k'):
+                    time = 0
+                    distance = 0
+                    ret = agent2.run_moving_target(start, target, grid, dim, time, distance)
+
+
                 if event.key == ord('1'):
 
                     for i in range(0, 100):
@@ -260,7 +266,7 @@ def main(win, width, dimension):
                     for i in range(0, 10):
                         time = 0
                         distance = 0
-                        ret = agent2.run(start, target, grid, dim, time, distance)
+                        ret = agent1.run_moving_target(start, target, grid, dim, time, distance)
                         AGENT2_TIME.append(ret[0])
                         AGENT2_DIST.append(ret[1])
                         AGENT2_SCORE.append(ret[2])
@@ -272,6 +278,24 @@ def main(win, width, dimension):
                     print("Agent1_Moving_Time = "+str(len(AGENT2_TIME))+" "+str(AGENT2_TIME))
                     print("Agent1_Moving_Dist = " + str(len(AGENT2_DIST)) + " " + str(AGENT2_DIST))
                     print("agent1_Moving_score = " + str(AGENT2_SCORE))
+
+                if event.key == ord('5'):
+
+                    for i in range(0, 10):
+                        time = 0
+                        distance = 0
+                        ret = agent2.run_moving_target(start, target, grid, dim, time, distance)
+                        AGENT2_TIME.append(ret[0])
+                        AGENT2_DIST.append(ret[1])
+                        AGENT2_SCORE.append(ret[2])
+
+                        generate_landscape(grid)
+                        target = set_target(grid, dim)
+                        start = set_start(grid, dim)
+
+                    print("Agent2_Moving_Time = "+str(len(AGENT2_TIME))+" "+str(AGENT2_TIME))
+                    print("Agent2_Moving_Dist = " + str(len(AGENT2_DIST)) + " " + str(AGENT2_DIST))
+                    print("agent2_Moving_score = " + str(AGENT2_SCORE))
 
 
     pygame.quit()

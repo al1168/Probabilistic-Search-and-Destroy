@@ -65,7 +65,6 @@ def man_dist(p1, p2):
     return abs(x1 - x2) + abs(y1 - y2)
 
 
-
 #agent 2
 def run(start, target, grid, dim, time, distance):
     explored = [] # for printing purposes
@@ -119,6 +118,108 @@ def run(start, target, grid, dim, time, distance):
             #current = temp_cell
             explored.append(current.get_pos())
             distance += min_d
+
+    print("\nDebugging: ")
+    #print("Explored ["+str(len(explored))+"]: "+str(explored))
+    print("Prob Sum: "+str(sum(belief_dict.values())))
+    print("Done")
+
+    return (time, distance, time+distance)
+
+#Moving Target
+def target_move(target):
+    neighbors = target.get_neighbors()
+    new_target = random.choice(neighbors)
+    return new_target
+
+#run agent
+def run_moving_target(start, target, grid, dim, time, distance):
+    explored = [] # for printing purposes
+
+    #initiate belief probs for each cell
+    tot = dim**2
+    belief_dict = dict()
+    confidence_dict = dict()
+
+    for row in grid:
+        for cell in row:
+            cell.set_belief_prob(1/tot)
+            belief_dict[cell] = cell.get_belief_prob()
+
+            cell.set_confidence_prob(1 - cell.get_false_neg_prob())
+            confidence_dict[cell] = cell.get_confidence_prob()
+
+    current = start
+    explored.append(current.get_pos())
+
+    is_close_by = False
+    searching = True
+    while searching:
+
+        action = search(current, target)
+
+        if action == True:
+            print("\nAgent2 Result")
+            print("Target Found")
+            print("Time: "+str(time))
+            print("Distance: " + str(distance))
+            searching = False
+        else:
+            time += 1
+
+            # move target
+            target = target_move(target)
+            print(target.get_pos())
+
+            belief_dict = update_beliefs(current, belief_dict, grid, tot)
+            confidence_dict = update_confidence(current, confidence_dict, belief_dict, grid)
+
+            target_d = man_dist(current.get_pos(), target.get_pos())
+            if target_d <= 5:
+                is_close_by = True
+                close_dict = dict()
+
+                for row in grid:
+                    for cell in row:
+                        d = man_dist(current.get_pos(), cell.get_pos())
+                        if d <= 5:
+                            close_dict[cell] = belief_dict[cell]
+
+                highest_belief = max(close_dict.values())  # get highest belief
+                cell_list = [key for key in close_dict if
+                             close_dict[key] == highest_belief]  # list of cells that share the highest belief
+
+                min_d = 1000000000000
+                # temp_cell = grid[0][0]
+                for cell in cell_list:
+                    temp_d = man_dist(current.get_pos(), cell.get_pos())
+                    if temp_d < min_d:
+                        min_d = temp_d
+                        current = cell
+
+                # current = temp_cell
+                explored.append(current.get_pos())
+                distance += min_d
+
+            else:
+                s_close_by = False
+
+                highest_confidence = max(confidence_dict.values()) #get highest confidence
+                cell_list = [key for key in confidence_dict if confidence_dict[key] == highest_confidence] # list of cells that share the highest belief
+
+                min_d = 1000000000000
+                #temp_cell = grid[0][0]
+                for cell in cell_list:
+                    temp_d = man_dist(current.get_pos(), cell.get_pos())
+                    if temp_d < min_d:
+                        min_d = temp_d
+                        current = cell
+
+                #current = temp_cell
+                explored.append(current.get_pos())
+                distance += min_d
+
+        print("Is close: "+str(is_close_by))
 
     print("\nDebugging: ")
     #print("Explored ["+str(len(explored))+"]: "+str(explored))
